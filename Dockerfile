@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND="noninteractive"
 RUN echo "**** install packages ****" \
   && apt-get update \
   && apt-get install -y cpio jq rpm2cpio \
-  && echo "**** install emby ****" && \
+  && echo "**** install emby ****" \
   && mkdir -p /app/emby \
   && if [ -z ${EMBY_RELEASE+x} ]; then \
       EMBY_RELEASE=$(curl -s https://api.github.com/repos/MediaBrowser/Emby.Releases/releases/latest | jq -r '. | .tag_name'); \
