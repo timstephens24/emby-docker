@@ -35,7 +35,7 @@ RUN echo "**** install packages ****" \
   && apt-get update \
   && apt-get install -y --no-install-recommends mesa-va-drivers \
   && echo "**** cleanup ****" \
-  && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+  && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* \
   && mkdir /tmp/neo \
   && cd /tmp/neo \
   && wget https://github.com/intel/compute-runtime/releases/download/20.48.18558/intel-gmmlib_20.3.2_amd64.deb \
