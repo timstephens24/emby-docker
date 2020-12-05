@@ -1,0 +1,47 @@
+FROM timstephens24/ubuntu as buildstage
+
+# runtime stage
+FROM timstephens24/ubuntu
+
+# set version label
+ARG BUILD_DATE
+ARG VERSION
+ARG EMBY_RELEASE
+LABEL build_version="stephens.cc version:- ${VERSION} Build-date:- ${BUILD_DATE}"
+LABEL maintainer="timstephens24"
+
+# add needed nvidia environment variables for https://github.com/NVIDIA/nvidia-docker
+ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility"
+
+# emby variables
+ENV DEBIAN_FRONTEND="noninteractive"
+ENV EMBY_RELEASE=$(curl -s https://api.github.com/repos/MediaBrowser/Emby.Releases/releases/latest | jq -r '. | .tag_name')
+
+# install packages
+RUN \
+  echo "**** install packages ****" && \
+  apt-get update && \
+  apt-get install -y --no-install-recommends \
+      cpio \
+      jq \
+      udev \
+      unrar \
+      mesa-va-drivers && \
+  echo "**** install emby ****" && \
+  curl -o /tmp/embyserver.deb -L \
+      https://github.com/MediaBrowser/Emby.Releases/releases/download/${EMBY_RELEASE}/emby-server-deb_${EMBY_RELEASE}_amd64.deb && \
+  dpkg -i /tmp/embyserver.deb && \
+  echo "**** ensure abc user's home folder is /app ****" && \
+  usermod -d /app abc && \
+  echo "**** cleanup ****" && \
+  rm -rf \
+      /tmp/* \
+      /var/lib/apt/lists/* \
+      /var/tmp/*
+
+# add local files
+COPY root/ /
+
+# ports and volumes
+EXPOSE 8096 8920
+VOLUME /config
