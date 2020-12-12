@@ -54,19 +54,9 @@ docker run -d \
   --device /dev/dri:/dev/dri `#optional` \
   timstephens24/emby
 ```
-
-## Architecture Tags
-Current support is for x86-64 only, but hopefully arm64 and armhf soon as well.
-
-The architectures supported by this image are:
-
-| Architecture | Tag |
-| :----: | --- |
-| x86-64 | latest |
-
 ## Version Tags
 
-This image provides various versions that are available via tags. `latest` tag usually provides the latest stable version. Others are considered under development and caution must be exercised when using them.
+This image might provide various versions that are available via tags. `latest` tag usually provides the latest stable version. Others are considered under development and caution must be exercised when using them.
 
 | Tag | Description |
 | :----: | --- |
