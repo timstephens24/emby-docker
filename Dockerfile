@@ -2,7 +2,7 @@ FROM timstephens24/ubuntu as buildstage
 
 # build args
 ARG EMBY_RELEASE
-ENV DEBIAN_FRONTEND="noninteractive" 
+ENV DEBIAN_FRONTEND="noninteractive"
 
 RUN echo "**** install packages ****" \
   && apt-get update \
