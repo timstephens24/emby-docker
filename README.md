@@ -27,20 +27,13 @@ services:
       - /path/to/tvshows:/data/tvshows
       - /path/to/movies:/data/movies
       - /path/for/transcoding:/transcode #optional
-      - /opt/vc/lib:/opt/vc/lib #optional
     ports:
       - 8096:8096
       - 8920:8920 #optional
     devices:
       - /dev/dri:/dev/dri #optional
-      - /dev/vchiq:/dev/vchiq #optional
-      - /dev/video10:/dev/video10 #optional
-      - /dev/video11:/dev/video11 #optional
-      - /dev/video12:/dev/video12 #optional
-    restart: unless-stopped
 ```
 ### docker cli
-
 ```
 docker run -d \
   --net=host \
@@ -58,13 +51,7 @@ docker run -d \
   -v /path/to/tvshows:/data/tvshows \
   -v /path/to/movies:/data/movies \
   -v /path/for/transcoding:/transcode `#optional` \
-  -v /opt/vc/lib:/opt/vc/lib `#optional` \
   --device /dev/dri:/dev/dri `#optional` \
-  --device /dev/vchiq:/dev/vchiq `#optional` \
-  --device /dev/video10:/dev/video10 `#optional` \
-  --device /dev/video11:/dev/video11 `#optional` \
-  --device /dev/video12:/dev/video12 `#optional` \
-  --restart unless-stopped \
   timstephens24/emby
 ```
 
