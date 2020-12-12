@@ -7,11 +7,8 @@ It's also set to expose port 8096 (tcp) and 8290 (tcp), so it should be able to 
 For Unraid I also have templates at: https://github.com/timstephens24/docker-templates. I have Emby's configuration located at `/mnt/user/appdata/emby` and my Media folder is `/mnt/user/data/Media`. Change those as appropriate
 
 ## Usage
-
 ### docker-compose (recommended)
-
 ```yaml
----
 version: "3.8"
 services:
   emby:
