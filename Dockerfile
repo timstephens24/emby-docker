@@ -31,20 +31,8 @@ LABEL maintainer="stephens.cc"
 ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility"
 
 # install packages
-RUN echo "**** install packages ****" \
-  && apt-get update \
-  && apt-get install -y --no-install-recommends mesa-va-drivers \
-  && echo "**** cleanup ****" \
-  && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* \
-  && mkdir /tmp/neo \
-  && cd /tmp/neo \
-  && wget https://github.com/intel/compute-runtime/releases/download/20.48.18558/intel-gmmlib_20.3.2_amd64.deb \
-  && wget https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.5699/intel-igc-core_1.0.5699_amd64.deb \
-  && wget https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.5699/intel-igc-opencl_1.0.5699_amd64.deb \
-  && wget https://github.com/intel/compute-runtime/releases/download/20.48.18558/intel-opencl_20.48.18558_amd64.deb \
-  && wget https://github.com/intel/compute-runtime/releases/download/20.48.18558/intel-ocloc_20.48.18558_amd64.deb \
-  && wget https://github.com/intel/compute-runtime/releases/download/20.48.18558/intel-level-zero-gpu_1.0.18558_amd64.deb \
-  && dpkg -i *.deb
+RUN echo "**** cleanup ****" \
+  && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
 # add local files
 COPY --from=buildstage /app/emby /app/emby
