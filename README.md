@@ -15,7 +15,7 @@ services:
     restart: always
     container_name: emby
     hostname: emby
-    image: timstephens24/emby
+    image: timstephens24/emby:latest
     environment:
       - PUID=1000
       - PGID=1000
@@ -52,7 +52,7 @@ docker run -d \
   -v /path/to/movies:/data/movies \
   -v /path/for/transcoding:/transcode `#optional` \
   --device /dev/dri:/dev/dri `#optional` \
-  timstephens24/emby
+  timstephens24/emby:latest
 ```
 ## Version Tags
 
@@ -61,3 +61,4 @@ This image might provide various versions that are available via tags. `latest` 
 | Tag | Description |
 | :----: | --- |
 | latest | Stable Emby release |
+| beta | Beta Emby release |
