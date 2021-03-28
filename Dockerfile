@@ -1,4 +1,4 @@
-FROM timstephens24/ubuntu as buildstage
+FROM ghcr.io/linuxserver/baseimage-ubuntu:focal as buildstage
 
 # build args
 ARG EMBY_RELEASE
@@ -19,7 +19,7 @@ RUN echo "**** install packages ****" \
   && mv -t /app/emby/ /tmp/opt/emby-server/system/* /tmp/opt/emby-server/lib/* /tmp/opt/emby-server/bin/ff* /tmp/opt/emby-server/etc
 
 # runtime stage
-FROM timstephens24/ubuntu
+FROM ghcr.io/linuxserver/baseimage-ubuntu:focal
 
 # set version label
 ARG BUILD_DATE
@@ -31,8 +31,19 @@ LABEL maintainer="stephens.cc"
 ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility"
 
 # install packages
-RUN echo "**** cleanup ****" \
-  && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+RUN echo "**** install dependencies ****" \
+  && apt update \
+  && apt install -y --no-install-recommends wget iproute2 beignet-opencl-icd jq ocl-icd-libopencl1 udev unrar wget \
+  && COMP_RT_RELEASE=$(curl -sX GET "https://api.github.com/repos/intel/compute-runtime/releases/latest" | jq -r '.tag_name') \
+  && COMP_RT_URLS=$(curl -sX GET "https://api.github.com/repos/intel/compute-runtime/releases/tags/${COMP_RT_RELEASE}" | jq -r '.body' | grep wget | sed 's|wget ||g') \
+  && mkdir -p /opencl-intel \
+  && for i in ${COMP_RT_URLS}; do \
+      i=$(echo ${i} | tr -d '\r'); \
+      echo "**** downloading ${i} ****"; \
+      curl -o "/opencl-intel/$(basename ${i})" -L "${i}"; \
+    done \
+  && echo "**** cleanup ****" \
+  && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* /opencl-intel
 
 # add local files
 COPY --from=buildstage /app/emby /app/emby
